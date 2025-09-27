@@ -1,0 +1,385 @@
+
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f8f3ec; /* Fondo reconfortante */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+/* Header */
+header {
+    background: #6e8efb;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(110,142,251,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    user-select: none;
+}
+
+/* Logout Button in header */
+.btn-logout {
+    background: #e05252;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1.15rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    user-select: none;
+}
+.btn-logout:hover,
+.btn-logout:focus {
+    background: #c94040;
+    outline: none;
+    box-shadow: 0 6px 15px rgba(224,82,82,0.6);
+}
+
+/* Layout principal con sidebar y contenido */
+.dashboard {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 70px); /* restando header altura aproximada */
+    overflow: hidden;
+}
+
+/* Sidebar */
+nav.sidebar {
+    width: 280px;
+    background: white;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.07);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 70px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+nav.sidebar h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #4a47a3;
+}
+
+nav.sidebar a {
+    text-decoration: none;
+    color: #555;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav.sidebar a svg {
+    width: 20px;
+    height: 20px;
+    fill: #6e8efb;
+    transition: fill 0.3s;
+}
+
+nav.sidebar a:hover,
+nav.sidebar a:focus {
+    background: #6e8efb;
+    color: white;
+    outline: none;
+}
+
+nav.sidebar a:hover svg,
+nav.sidebar a:focus svg {
+    fill: white;
+}
+
+nav.sidebar a.active {
+    background: #5a6ed9;
+    color: white;
+}
+
+/* Contenido principal */
+main.content {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+}
+
+/* Título sección */
+main.content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #4a47a3;
+    user-select: none;
+}
+
+/* Tarjetas resumen */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 1.8rem 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.7rem 2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    user-select: none;
+    transition: transform 0.25s ease;
+}
+
+.card:hover,
+.card:focus-within {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 0.9rem;
+}
+
+.card .value {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #4a47a3;
+    letter-spacing: 0.03em;
+}
+
+/* Tabla tareas */
+section.tasks {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.09);
+    padding: 2rem;
+    overflow-x: auto;
+}
+
+section.tasks h3 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #4a47a3;
+    margin-bottom: 1.3rem;
+    user-select: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    min-width: 600px;
+}
+
+thead tr {
+    background: #6e8efb;
+    color: white;
+    text-align: left;
+    user-select: none;
+}
+
+thead th {
+    padding: 0.9rem 1.2rem;
+    font-weight: 600;
+    border-radius: 10px 10px 0 0;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background 0.3s;
+}
+
+tbody tr:hover {
+    background: #f0f4fe;
+}
+
+tbody td {
+    padding: 0.95rem 1.2rem;
+    vertical-align: middle;
+    color: #444;
+    white-space: nowrap;
+}
+
+/* Estado de tarea */
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    user-select: none;
+    width: max-content;
+}
+.status.pending {
+    background: #ffe5e5;
+    color: #e05252;
+}
+.status.in-progress {
+    background: #fff5e1;
+    color: #d4a30b;
+}
+.status.completed {
+    background: #e0f5e9;
+    color: #328343;
+}
+
+/* Botón acción */
+.btn-action {
+    background: #6e8efb;
+    border: none;
+    color: white;
+    padding: 0.45rem 1.1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+    user-select: none;
+    white-space: nowrap;
+}
+.btn-action:hover,
+.btn-action:focus {
+    background: #5a6ed9;
+    outline: none;
+    box-shadow: 0 5px 15px rgba(90,110,217,0.5);
+}
+.btn-action:disabled {
+    background: #cccccc;
+    cursor: default;
+    box-shadow: none;
+    color: #666666;
+}
+
+/* Responsive mejorado para móvil */
+@media (max-width: 840px) {
+
+    /* Simplificamos layout a columna */
+    .dashboard {
+    flex-direction: column;
+    min-height: auto;
+    }
+
+    /* Sidebar convertido en barra superior horizontal desplazable */
+    nav.sidebar {
+    width: 100%;
+    height: 56px;
+    padding: 0 1rem;
+    flex-direction: row;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 0 0 12px 12px;
+    z-index: 1002;
+    }
+
+    nav.sidebar::-webkit-scrollbar {
+    height: 6px;
+    }
+    nav.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(110,142,251,0.5);
+    border-radius: 3px;
+    }
+
+    nav.sidebar h2 {
+    display: none;
+    }
+
+    nav.sidebar a {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    padding: 0.7rem 1rem;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    }
+
+    main.content {
+    padding: 1.5rem 1.5rem 3rem;
+    margin-top: 130px; /* espacio para header y barra fija sidebar */
+    }
+
+    /* Tabla: que ocupe todo el ancho y pueda scrollear horizontal sin romper layout */
+    section.tasks {
+    padding: 1.5rem 1rem;
+    }
+
+    table {
+    min-width: 700px;
+    }
+
+    /* Cartas resumen: menos columnas y más espacio vertical */
+    .cards-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 1.5rem;
+    margin-bottom: 1.8rem;
+    }
+}
+
+/* Responsive extremadamente pequeño - pantallas < 480px */
+@media (max-width: 480px) {
+    .cards-container {
+    grid-template-columns: 1fr;
+    }
+    main.content {
+    padding: 1rem 1rem 3rem;
+    margin-top: 130px;
+    }
+    header {
+    padding: 1rem 1rem;
+    }
+    nav.sidebar a {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    }
+    thead th, tbody td {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.9rem;
+    }
+    .btn-action {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+    }
+    .btn-logout {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.9rem;
+    }
+}

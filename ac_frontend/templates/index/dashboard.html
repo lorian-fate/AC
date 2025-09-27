@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Dashboard Administrador de Fincas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+</head>
+<body>
+
+<header role="banner" aria-label="Cabecera del dashboard">
+  <h1>Administrador de Fincas</h1>
+  <button class="btn-logout" aria-label="Cerrar sesión" title="Cerrar sesión">Cerrar sesión</button>
+</header>
+
+<div class="dashboard">
+
+  <nav class="sidebar" role="navigation" aria-label="Menú principal">
+    <h2>Menú</h2>
+    <a href="#" class="active" tabindex="0" aria-current="page" title="Panel de inicio">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h8V3H3v10zm10 8h8v-6h-8v6zm0-8h8V3h-8v10zm-10 8h8v-6H3v6z"/></svg>
+      Panel
+    </a>
+    <a href="#" tabindex="0" title="Gestión de usuarios">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+      Usuarios
+    </a>
+    <a href="#" tabindex="0" title="Configuración de fincas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0-5v2a8.001 8.001 0 0 1 7.961 6.518a2 2 0 0 1 2.039 2.012c-.262 0-.512 0-.77-.024A8.002 8.002 0 0 1 12 21v2c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      Fincas
+    </a>
+    <a href="#" tabindex="0" title="Reportes y estadísticas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 17h18v2H3zM6 7h2v8H6zm5 3h2v5h-2zm5 0h2v2h-2z"/></svg>
+      Reportes
+    </a>
+  </nav>
+
+  <main class="content" role="main" aria-label="Contenido principal del dashboard">
+    <h2>Panel de control</h2>
+
+    <div class="cards-container" aria-label="Resumen de tareas y fincas">
+      <div class="card" role="region" aria-labelledby="totalFincasLabel">
+        <h3 id="totalFincasLabel">Fincas Administradas</h3>
+        <p class="value" aria-live="polite" id="totalFincas">14</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="pendingTasksLabel">
+        <h3 id="pendingTasksLabel">Tareas Pendientes</h3>
+        <p class="value" aria-live="polite" id="pendingTasks">6</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="inProgressTasksLabel">
+        <h3 id="inProgressTasksLabel">Tareas en Progreso</h3>
+        <p class="value" aria-live="polite" id="inProgressTasks">3</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="completedTasksLabel">
+        <h3 id="completedTasksLabel">Tareas Completadas</h3>
+        <p class="value" aria-live="polite" id="completedTasks">25</p>
+      </div>
+    </div>
+
+    <section class="tasks" aria-label="Lista de tareas recientes">
+      <h3>Tareas Recientes</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Tarea</th>
+            <th>Finca</th>
+            <th>Responsable</th>
+            <th>Fecha límite</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Recoger facturas de servicios</td>
+            <td>Finca El Paraíso</td>
+            <td>Laura Martínez</td>
+            <td>2024-07-10</td>
+            <td><span class="status pending" aria-label="Pendiente">Pendiente</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Recoger facturas de servicios como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Revisión anual del ascensor</td>
+            <td>Finca Los Olivos</td>
+            <td>Carlos Gómez</td>
+            <td>2024-07-02</td>
+            <td><span class="status in-progress" aria-label="En progreso">En progreso</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Revisión anual del ascensor como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Poda y mantenimiento jardín</td>
+            <td>Finca Las Rosas</td>
+            <td>María Fernández</td>
+            <td>2024-07-15</td>
+            <td><span class="status pending" aria-label="Pendiente">Pendiente</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Poda y mantenimiento jardín como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Pago de suministros de agua</td>
+            <td>Finca San José</td>
+            <td>Juan Pérez</td>
+            <td>2024-06-30</td>
+            <td><span class="status completed" aria-label="Completado">Completado</span></td>
+            <td><button class="btn-action" aria-label="Tarea Pago de suministros de agua completada" disabled>Completado</button></td>
+          </tr>
+          <tr>
+            <td>Actualización del seguro</td>
+            <td>Finca El Paraíso</td>
+            <td>Andrea Ruiz</td>
+            <td>2024-07-20</td>
+            <td><span class="status in-progress" aria-label="En progreso">En progreso</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Actualización del seguro como completada">Completar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
