@@ -28,7 +28,7 @@
       <button type="submit" class="btn-login" aria-label="Iniciar sesión">Iniciar sesión</button>
     </form>
 
-    <p class="helper-text">¿No tienes cuenta? <a href="#" tabindex="0">Regístrate aquí</a></p>
+    <p class="helper-text">¿No tienes cuenta? <a href="{{ url_for('register_page') }}" tabindex="0">Regístrate aquí</a></p>
   </div>
   <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>

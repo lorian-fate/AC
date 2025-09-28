@@ -30,12 +30,18 @@ def home():
         return redirect(url_for("index/dashboard"))
     return render_template("login/login.html")
 
+
 # Dashboard (perfil del usuario)
 @app.route("/dashboard")
 def dashboard():
     if not session.get("user_email"):
         return redirect(url_for("home"))
     return render_template("index/dashboard.html", user_email=session["user_email"])
+
+
+@app.route("/register")
+def register_page():
+    return render_template("login/register.html")
 
 
 # Logout
