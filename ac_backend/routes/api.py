@@ -1,10 +1,18 @@
 from flask import Blueprint, request, jsonify
 from flask import session
 import re
+
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from ac_backend.db_manager.userManager import UserManager
+from ac_backend.db_manager.farmsManager import FarmsManager
+
+
+
 
 user_manager = UserManager()
+farms_manager = FarmsManager()
+
 
 
 api_bp = Blueprint("api", __name__)
@@ -17,6 +25,8 @@ USERS = [
         "nombre": "Juan Pérez"
     }
 ]
+
+
 
 # Endpoint de login
 @api_bp.route("/login", methods=["POST"])
@@ -77,3 +87,89 @@ def register():
 
 
     return jsonify({"success": True, "message": "Registro exitoso"}), 201
+
+
+
+
+
+@api_bp.route('/fincas', methods=['GET'])
+def get_fincas():
+    allFarms = farms_manager.get_farms()
+    farms = []
+    for farm in allFarms:
+        farms.append({
+            "id": farm[0],
+            "nombre": farm[1],
+            "direccion": farm[2],
+            "descripcion": farm[3],
+            "responsable": farm[4] if len(farm) > 4 else ''
+        })
+    return jsonify(farms)
+
+
+
+
+@api_bp.route('/fincas', methods=['POST'])
+def create_finca():
+    data = request.json
+    nombre = data.get('nombre', '').strip()
+    if not nombre:
+        return jsonify({"success": False, "message": "El nombre es obligatorio"}), 400
+    
+    farms_manager.add_farm(
+        name=nombre,
+        address=data.get('direccion', '').strip(),
+        description=data.get('descripcion', '').strip(),
+        responsible=data.get('responsable', '').strip()
+    )
+    """
+    finca = Finca(nombre=nombre,
+                  direccion=data.get('direccion', '').strip(),
+                  descripcion=data.get('descripcion', '').strip(),
+                  responsable=session.get('user_id')
+                  )
+
+    db.session.add(finca)
+    db.session.commit()"""
+
+    #return jsonify({"success": True, "finca": finca.to_dict()}), 201
+    return jsonify({"success": True, "message": "Finca creada"}), 201
+
+
+
+
+@api_bp.route('/fincas/<int:id>', methods=['PUT'])
+def update_finca(id):
+
+    finca = farms_manager.get_by_id(id)
+    if not finca:
+        return jsonify({"success": False, "message": "Finca no encontrada"}), 404
+    
+    data = request.json
+    nombre = data.get('nombre', '').strip()
+    if not nombre:
+        return jsonify({"success": False, "message": "El nombre es obligatorio"}), 400
+    
+    farms_manager.update_farm(
+        farm_id=id,
+        name=nombre,
+        address=data.get('direccion', '').strip(),
+        description=data.get('descripcion', '').strip(),
+        responsible=data.get('responsable', '').strip()
+    )
+
+    return jsonify({"success": True, "message": "Finca actualizada"}), 200
+
+
+
+
+
+@api_bp.route('/fincas/<int:id>', methods=['DELETE'])
+def delete_finca(id):
+    finca = farms_manager.get_by_id(id)
+    if not finca:
+        return jsonify({"success": False, "message": "Finca no encontrada"}), 404
+
+    farms_manager.delete_farm(id)
+    return jsonify({"success": True, "message": "Finca eliminada"})
+

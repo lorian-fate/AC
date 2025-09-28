@@ -27,7 +27,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev_secret_key")
 def home():
     # Si el usuario ya está logueado, redirigir al dashboard
     if session.get("user_email"):
-        return redirect(url_for("index/dashboard"))
+        return redirect(url_for("dashboard"))
     return render_template("login/login.html")
 
 
@@ -37,6 +37,16 @@ def dashboard():
     if not session.get("user_email"):
         return redirect(url_for("home"))
     return render_template("index/dashboard.html", user_email=session["user_email"])
+
+
+@app.route('/fincas')
+def fincas_page():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('fincas/fincas.html')
+
+
+
 
 
 @app.route("/register")
@@ -49,3 +59,13 @@ def register_page():
 def logout():
     session.clear()
     return redirect(url_for("home"))
+
+
+
+
+
+
+
+
+
+
