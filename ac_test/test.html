@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
+<h2 mp-tooltip="objeto.desc.trim()" class="cards-np-title ng-binding" title>Comunidades</h2>
+<!-- ngIf: objeto.txtAcceso -->
+<div class="cards-links">
+<!-- ngRepeat: enlace en objeto.enlaces | orderBy:'orden' -->
+<div ng-click="abrirAplicacion (enlace)" ng-repeat="enlace in objeto.enlaces | orderBy: 'orden'" class="card-link ng-scope"> == $0
+<p ng-bind-html="enlace.nombre | trust" mp-tooltip="enlace.desc" class="ng-binding">
+Tarificación y emisión</p>
+</div>
+<!-- end ngRepeat: enlace en objeto.enlaces | orderBy: 'orden' -->
+
+//

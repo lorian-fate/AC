@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Dashboard Administrador de Fincas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+</head>
+<body>
+
+<header role="banner" aria-label="Cabecera del dashboard">
+  <h1>Administrador de Fincas</h1>
+  <button class="btn-logout" aria-label="Cerrar sesión" title="Cerrar sesión">Cerrar sesión</button>
+</header>
+
+<div class="dashboard">
+
+  <nav class="sidebar" role="navigation" aria-label="Menú principal">
+    <h2>Menú</h2>
+    <a href="#" class="active" tabindex="0" aria-current="page" title="Panel de inicio">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h8V3H3v10zm10 8h8v-6h-8v6zm0-8h8V3h-8v10zm-10 8h8v-6H3v6z"/></svg>
+      Panel
+    </a>
+    <a href="#" tabindex="0" title="Gestión de usuarios">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+      Usuarios
+    </a>
+    <a href="{{ url_for('fincas_page') }}" tabindex="0" title="Configuración de fincas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0-5v2a8.001 8.001 0 0 1 7.961 6.518a2 2 0 0 1 2.039 2.012c-.262 0-.512 0-.77-.024A8.002 8.002 0 0 1 12 21v2c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      Fincas
+    </a>
+    <a href="#" tabindex="0" title="Reportes y estadísticas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 17h18v2H3zM6 7h2v8H6zm5 3h2v5h-2zm5 0h2v2h-2z"/></svg>
+      Reportes
+    </a>
+  </nav>
+
+  <main class="content" role="main" aria-label="Contenido principal del dashboard">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
