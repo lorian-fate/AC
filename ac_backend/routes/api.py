@@ -92,8 +92,8 @@ def register():
 
 
 
-@api_bp.route('/fincas', methods=['GET'])
-def get_fincas():
+@api_bp.route('/farms', methods=['GET'])
+def get_farms():
     allFarms = farms_manager.get_farms()
     farms = []
     for farm in allFarms:
@@ -101,8 +101,7 @@ def get_fincas():
             "id": farm[0],
             "nombre": farm[1],
             "direccion": farm[2],
-            "descripcion": farm[3],
-            "responsable": farm[4] if len(farm) > 4 else ''
+            "descripcion": farm[3]
         })
     return jsonify(farms)
 
@@ -141,7 +140,7 @@ def create_finca():
 @api_bp.route('/fincas/<int:id>', methods=['PUT'])
 def update_finca(id):
 
-    finca = farms_manager.get_by_id(id)
+    finca = farms_manager.get_farm_by_id(id)
     if not finca:
         return jsonify({"success": False, "message": "Finca no encontrada"}), 404
     
@@ -166,7 +165,7 @@ def update_finca(id):
 
 @api_bp.route('/fincas/<int:id>', methods=['DELETE'])
 def delete_finca(id):
-    finca = farms_manager.get_by_id(id)
+    finca = farms_manager.get_farm_by_id(id)
     if not finca:
         return jsonify({"success": False, "message": "Finca no encontrada"}), 404
 

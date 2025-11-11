@@ -46,9 +46,6 @@ def fincas_page():
     return render_template('fincas/fincas.html')
 
 
-
-
-
 @app.route("/register")
 def register_page():
     return render_template("login/register.html")

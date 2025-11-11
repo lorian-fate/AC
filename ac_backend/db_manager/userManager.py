@@ -88,4 +88,8 @@ class UserManager:
         username: user002
         email: user002@example.com
         password: user002pass
+    user3:
+        username: user003
+        email: user003@example.com
+        password: user003pass
 """

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gestión de Fincas</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/farms.css') }}" />
+</head>
+<body>
+<header>
+  <h1>Gestión de Fincas</h1>
+  <a href="{{ url_for('dashboard') }}" class="btn-cancel" style="text-decoration:none; padding:0.5rem 1rem; border-radius:8px; background:#ccc; color:#333;">Volver al Dashboard</a>
+</header>
+
+
+<button id="createFincaBtn">Crear Finca</button>
+<div id="fincaMessage" style="margin-top:1rem; font-weight:600;"></div>
+
+<table aria-label="Lista de fincas">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Dirección</th>
+      <th>Descripción</th>
+      <th>Responsable</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody id="fincasBody">
+    <!-- Fincas se cargarán aquí -->
+  </tbody>
+</table>
+
+<!-- Modal Crear/Editar -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content">
+    <h2 id="modalTitle">Crear Finca</h2>
+    <form id="fincaForm">
+      <input type="hidden" id="fincaId" />
+      <label for="nombre">Nombre *</label>
+      <input type="text" id="nombre" name="nombre" required />
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" name="direccion" />
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion"></textarea>
+      <label for="responsable">Responsable</label>
+      <input type="text" id="responsable" name="responsable" />
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="cancelBtn">Cancelar</button>
+        <button type="submit" class="btn-save">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/farms.js') }}"></script>
+</body>
+</html>

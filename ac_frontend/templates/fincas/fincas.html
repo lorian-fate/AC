@@ -156,9 +156,7 @@
   <a href="{{ url_for('dashboard') }}" class="btn-cancel" style="text-decoration:none; padding:0.5rem 1rem; border-radius:8px; background:#ccc; color:#333;">Volver al Dashboard</a>
 </header>
 
-
 <button id="createFincaBtn">Crear Finca</button>
-<div id="fincaMessage" style="margin-top:1rem; font-weight:600;"></div>
 
 <table aria-label="Lista de fincas">
   <thead>
@@ -166,7 +164,6 @@
       <th>Nombre</th>
       <th>Dirección</th>
       <th>Descripción</th>
-      <th>Responsable</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -224,7 +221,6 @@
         <td>${escapeHtml(finca.nombre)}</td>
         <td>${escapeHtml(finca.direccion || '')}</td>
         <td>${escapeHtml(finca.descripcion || '')}</td>
-        <td>${escapeHtml(finca.responsable || '')}</td>
         <td>
           <button class="action-btn edit-btn" data-id="${finca.id}" aria-label="Editar finca ${escapeHtml(finca.nombre)}">Editar</button>
           <button class="action-btn delete-btn" data-id="${finca.id}" aria-label="Eliminar finca ${escapeHtml(finca.nombre)}">Eliminar</button>
@@ -289,17 +285,11 @@
     });
     const result = await res.json();
 
-    const fincaMessage = document.getElementById('fincaMessage');
     if (result.success) {
       closeModal();
       loadFincas();
-      fincaMessage.textContent = result.message || 'Finca creada correctamente.';
-      fincaMessage.style.color = 'green';
-      setTimeout(() => { fincaMessage.textContent = ''; }, 3000);
     } else {
-      fincaMessage.textContent = result.message || 'Error al guardar la finca.';
-      fincaMessage.style.color = 'red';
-      setTimeout(() => { fincaMessage.textContent = ''; }, 3000);
+      alert(result.message || 'Error al guardar la finca.');
     }
   });
 
