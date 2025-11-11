@@ -6,8 +6,7 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from ac_backend.db_manager.userManager import UserManager
 from ac_backend.db_manager.farmsManager import FarmsManager
-from playwright.sync_api import sync_playwright
-import time
+
 
 
 
@@ -93,8 +92,8 @@ def register():
 
 
 
-@api_bp.route('/fincas', methods=['GET'])
-def get_fincas():
+@api_bp.route('/farms', methods=['GET'])
+def get_farms():
     allFarms = farms_manager.get_farms()
     farms = []
     for farm in allFarms:
@@ -102,8 +101,7 @@ def get_fincas():
             "id": farm[0],
             "nombre": farm[1],
             "direccion": farm[2],
-            "descripcion": farm[3],
-            "responsable": farm[4] if len(farm) > 4 else ''
+            "descripcion": farm[3]
         })
     return jsonify(farms)
 
@@ -139,67 +137,10 @@ def create_finca():
 
 
 
-
-#Test para el login
-@api_bp.route('/testlogin', methods=['POST'])
-def test_login():
-    LOGIN_URL = "https://wmediadores.mapfre.com/PortalMediadores_fe-web/#/login"
-    data = request.json
-    username = data.get('email', '').strip()
-    password = data.get('password', '').strip()
-
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)  # pon True en producción
-        context = browser.new_context()
-
-        page = context.new_page()
-        page.goto(LOGIN_URL, timeout=60000)
-
-        # Rellenar formulario de login
-        page.fill("input[name='nuuma']", username)
-        page.fill("input[name='contrasena']", password)
-        #page.click("button[type='submit']")
-        page.click("button[class='btn btn-red ng-scope ng-binding']")
-        # Esperar redirección o algún elemento de la página privada
-        try:
-            page.wait_for_url("**/areadeclientes.mapfre.es/**", timeout=15000)
-            login_success = True
-        except:
-            login_success = False
-
-        # Tomar captura para verificar
-        screenshot = "login_result.png"
-        page.screenshot(path=screenshot, full_page=True)
-
-        browser.close()
-        return {"success": login_success, "screenshot": screenshot}
-    """if not correo or not password:
-        return jsonify({'success': False, 'message': 'Faltan credenciales'}), 400
-
-    user = user_manager.get_user_by_email(correo)
-    print("======================================================")
-    print(f"iniciando checkout para usuario: {user}")
-    print("======================================================")
-    if user and check_password_hash(user["contrasena"], password):
-        print("Usuario autenticado correctamente")
-        session['user_id'] = user["id"]
-        session['user_name'] = user["nombre_usuario"]
-        session['user_email'] = user["correo"]
-        return jsonify({'success': True, 'message': f'Bienvenido, {user["nombre_usuario"]}!'}), 200
-    else:
-        return jsonify({'success': False, 'message': 'Correo o contraseña incorrectos'}), 401
-        """
-
-
-
-
-
-
 @api_bp.route('/fincas/<int:id>', methods=['PUT'])
 def update_finca(id):
 
-    finca = farms_manager.get_by_id(id)
+    finca = farms_manager.get_farm_by_id(id)
     if not finca:
         return jsonify({"success": False, "message": "Finca no encontrada"}), 404
     
@@ -224,7 +165,7 @@ def update_finca(id):
 
 @api_bp.route('/fincas/<int:id>', methods=['DELETE'])
 def delete_finca(id):
-    finca = farms_manager.get_by_id(id)
+    finca = farms_manager.get_farm_by_id(id)
     if not finca:
         return jsonify({"success": False, "message": "Finca no encontrada"}), 404
 
