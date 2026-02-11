@@ -175,3 +175,38 @@ def delete_finca(id):
 
 
 
+
+
+
+
+
+
+
+
+
+# Simulación de base de datos para los datos de formularios
+# En producción usarías una tabla SQL: id, user_id, task_name, form_data (JSON)
+TASK_STORAGE = {}
+
+@api_bp.route('/api/task-data/<string:task_name>', methods=['GET'])
+def get_task_data(task_name):
+    # Retorna los datos guardados para esa tarea
+    data = TASK_STORAGE.get(task_name, {})
+    return jsonify({"success": True, "data": data})
+
+@api_bp.route('/api/task-data/<string:task_name>', methods=['POST'])
+def save_task_data(task_name):
+    data = request.json
+    TASK_STORAGE[task_name] = data  # Guardamos los datos
+    return jsonify({"success": True, "message": "Datos guardados correctamente"})
+
+@api_bp.route('/api/execute-task', methods=['POST'])
+def execute_task_backend():
+    data = request.json
+    task_name = data.get('task_name')
+    form_data = data.get('form_data') # Aquí llegan los datos del formulario
+    
+    print(f"--- EJECUTANDO TAREA EN BACKEND: {task_name} ---")
+    print(f"Datos procesados: {form_data}")
+    
+    return jsonify({"success": True, "message": f"Tarea {task_name} ejecutada con éxito"})

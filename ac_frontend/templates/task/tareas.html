@@ -1,0 +1,260 @@
+{% extends "index/base_dashboard.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/task/task_index.css') }}">
+
+
+<div class="tareas-view">
+    <h2>Gestión de Aseguradoras</h2>
+    <div class="insurance-grid" id="insuranceGrid"></div>
+
+    <section class="tasks-container">
+        <h3 id="selectedInsuranceTitle">Tareas disponibles</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requerido</th>
+                        <th>Tarea</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tasksBody"></tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- MODAL 1: Formulario de Datos -->
+<div id="formModal" class="modal-overlay">
+    <div class="modal-box form-box">
+        <h3>Datos de Tarea</h3>
+        <p id="formTaskName" style="font-weight: bold; color: #6e8efb;"></p>
+        <form id="dynamicTaskForm">
+            <div class="input-group">
+                <label>Referencia / ID</label>
+                <input type="text" name="ref_id" id="f_ref_id" placeholder="Ej: REF-12345" required>
+            </div>
+            <div class="input-group">
+                <label>Observaciones adicionales</label>
+                <textarea name="obs" id="f_obs" placeholder="Detalles técnicos..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal-cancel" onclick="closeFormModal()">Cancelar</button>
+                <button type="submit" class="btn-modal-confirm">Guardar Datos</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL 2: Confirmación de Ejecución -->
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">🚀</div>
+        <h3>Confirmar Ejecución</h3>
+        <p id="confirmMessage"></p>
+        <div class="modal-footer">
+            <button class="btn-modal-cancel" onclick="closeConfirmModal()">Cancelar</button>
+            <button class="btn-modal-confirm" id="confirmActionBtn">Iniciar Tarea</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Datos enriquecidos
+const dataAseguradoras = [
+    {
+        id: "mapfre", nombre: "Mapfre", color: "#d32f2f",
+        tareas: [{ name: "Siniestro Hogar", desc: "Reportar rotura" }, { name: "Renovación", desc: "Actualizar" }]
+    },
+    {
+        id: "caser", nombre: "Caser", color: "#1976d2",
+        tareas: [{ name: "Asistencia Médica", desc: "Cita" }]
+    },
+    {
+        id: "DKV", nombre: "DKV", color: "#1976d2",
+        tareas: [{ name: "Asistencia Médica", desc: "Cita" }, { name: "Renovación", desc: "Actualizar" }]
+    }
+];
+
+let currentInsurance = "";
+let currentTask = "";
+let savedData = {}; // Simula persistencia local rápida antes de DB
+
+/*
+function renderTasks(idAseguradora) {
+    currentInsurance = idAseguradora;
+    const aseg = dataAseguradoras.find(a => a.id === idAseguradora);
+    const tbody = document.getElementById('tasksBody');
+    document.getElementById('selectedInsuranceTitle').textContent = `Tareas de ${aseg.nombre}`;
+    
+    tbody.innerHTML = '';
+    aseg.tareas.forEach(tarea => {
+        const tr = document.createElement('tr');
+        // Usamos un ID único para el checkbox y datos
+        const storageKey = `${currentInsurance}_${tarea.name}`; 
+        
+        tr.innerHTML = `
+            <td style="text-align:center">
+                <input type="checkbox" class="task-check" id="check_${storageKey}" title="Datos requeridos">
+            </td>
+            <td>
+                <div class="bold">${tarea.name}</div>
+                <small>${tarea.desc}</small>
+            </td>
+            <td class="action-cell">
+                <button class="btn-form" onclick="openFormModal('${tarea.name}')">
+                    📝 Rellenar Formulario
+                </button>
+                <button class="btn-execute" onclick="intentarEjecutar('${tarea.name}')">
+                    Ejecutar
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}*/
+
+
+// ... (dentro de la etiqueta <script> de tareas.html)
+
+function renderTasks(idAseguradora) {
+    currentInsurance = idAseguradora;
+    const aseg = dataAseguradoras.find(a => a.id === idAseguradora);
+    const tbody = document.getElementById('tasksBody');
+    document.getElementById('selectedInsuranceTitle').textContent = `Tareas de ${aseg.nombre}`;
+    
+    tbody.innerHTML = '';
+    aseg.tareas.forEach(tarea => {
+        const storageKey = `${currentInsurance}_${tarea.name}`; 
+        const tr = document.createElement('tr');
+        
+        tr.innerHTML = `
+            <td style="text-align:center">
+                <input type="checkbox" class="task-check" 
+                    id="check_${storageKey}" 
+                    onchange="toggleFormLock('${storageKey}')"
+                    title="Habilitar formulario">
+            </td>
+            <td>
+                <div class="bold">${tarea.name}</div>
+                <small>${tarea.desc}</small>
+            </td>
+            <td class="action-cell">
+                <button class="btn-form locked" 
+                    id="btn_form_${storageKey}" 
+                    onclick="openFormModal('${tarea.name}')" 
+                    disabled>
+                    <span class="icon">🔒</span> Rellenar Formulario
+                </button>
+                <button class="btn-execute" onclick="intentarEjecutar('${tarea.name}')">
+                    Ejecutar
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// NUEVA FUNCIÓN: Abre/Cierra el candado
+function toggleFormLock(key) {
+    const checkbox = document.getElementById(`check_${key}`);
+    const btnForm = document.getElementById(`btn_form_${key}`);
+    
+    if (checkbox.checked) {
+        btnForm.disabled = false;
+        btnForm.classList.remove('locked');
+        btnForm.innerHTML = `<span class="icon">📝</span> Rellenar Formulario`;
+    } else {
+        btnForm.disabled = true;
+        btnForm.classList.add('locked');
+        btnForm.innerHTML = `<span class="icon">🔒</span> Rellenar Formulario`;
+        
+        // Opcional: Si el usuario desmarca el check, podrías borrar los datos guardados
+        // delete savedData[key]; 
+    }
+}
+
+
+// --- LÓGICA DE FORMULARIO ---
+function openFormModal(taskName) {
+    currentTask = taskName;
+    document.getElementById('formTaskName').textContent = taskName;
+    
+    // Intentar cargar datos previos de la "DB" (simulado)
+    const key = `${currentInsurance}_${currentTask}`;
+    if(savedData[key]) {
+        document.getElementById('f_ref_id').value = savedData[key].ref_id;
+        document.getElementById('f_obs').value = savedData[key].obs;
+    } else {
+        document.getElementById('dynamicTaskForm').reset();
+    }
+    
+    document.getElementById('formModal').classList.add('show');
+}
+
+function closeFormModal() { document.getElementById('formModal').classList.remove('show'); }
+
+document.getElementById('dynamicTaskForm').onsubmit = function(e) {
+    e.preventDefault();
+    const key = `${currentInsurance}_${currentTask}`;
+    savedData[key] = {
+        ref_id: document.getElementById('f_ref_id').value,
+        obs: document.getElementById('f_obs').value
+    };
+    alert("Datos guardados para esta tarea.");
+    closeFormModal();
+};
+
+// --- LÓGICA DE EJECUCIÓN ---
+function intentarEjecutar(taskName) {
+    currentTask = taskName;
+    const key = `${currentInsurance}_${taskName}`;
+    const isRequired = document.getElementById(`check_${key}`).checked;
+    
+    // Validación: Si es requerido y no hay datos
+    if (isRequired && !savedData[key]) {
+        alert("⚠️ Por favor, rellene primero el formulario antes de ejecutar esta tarea.");
+        openFormModal(taskName);
+        return;
+    }
+
+    // Si pasa la validación, pedir confirmación
+    document.getElementById('confirmMessage').textContent = `¿Seguro desea ejecutar ${taskName}? ${isRequired ? '(Se enviarán los datos guardados)' : ''}`;
+    document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('show'); }
+
+document.getElementById('confirmActionBtn').onclick = function() {
+    const key = `${currentInsurance}_${currentTask}`;
+    const payload = {
+        insurance: currentInsurance,
+        task: currentTask,
+        form_data: savedData[key] || null
+    };
+
+    // Llamada al backend
+    fetch('/api/execute-task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        alert("Tarea iniciada correctamente.");
+        closeConfirmModal();
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('insuranceGrid');
+    dataAseguradoras.forEach((aseg, i) => {
+        const card = document.createElement('div');
+        card.className = "insurance-card";
+        card.innerHTML = `<h3>${aseg.nombre}</h3><p>${aseg.tareas.length} Tareas</p>`;
+        card.onclick = () => { renderTasks(aseg.id); };
+        grid.appendChild(card);
+    });
+    renderTasks(dataAseguradoras[0].id);
+});
+</script>
+{% endblock %}

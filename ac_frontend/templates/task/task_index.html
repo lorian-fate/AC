@@ -1,0 +1,43 @@
+{% extends "index/base_dashboard.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/task/task_index.css') }}">
+
+<div class="tareas-view">
+    <h2>Gestión de Aseguradoras</h2>
+    
+    <div class="insurance-grid" id="insuranceGrid"></div>
+
+    <section class="tasks-container">
+        <h3 id="selectedInsuranceTitle">Tareas disponibles</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tarea</th>
+                        <th>Descripción</th>
+                        <th>Estimación</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tasksBody"></tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- NUEVO: Modal de Confirmación Personalizado -->
+<div id="confirmModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-box">
+        <div class="modal-icon">⚠️</div>
+        <h3>Confirmar Acción</h3>
+        <p id="confirmMessage">¿Seguro desea ejecutar esta tarea?</p>
+        <div class="modal-footer">
+            <button class="btn-modal-cancel" id="closeModalBtn">Cancelar</button>
+            <button class="btn-modal-confirm" id="confirmActionBtn">Sí, ejecutar</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/task/task_index.js') }}"></script>
+{% endblock %}

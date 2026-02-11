@@ -17,7 +17,7 @@
 
   <nav class="sidebar" role="navigation" aria-label="Menú principal">
     <h2>Menú</h2>
-    <a href="#" class="active" tabindex="0" aria-current="page" title="Panel de inicio">
+    <a href="{{ url_for('dashboard') }}" class="active" tabindex="0" aria-current="page" title="Panel de inicio">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h8V3H3v10zm10 8h8v-6h-8v6zm0-8h8V3h-8v10zm-10 8h8v-6H3v6z"/></svg>
       Panel
     </a>
@@ -29,7 +29,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0-5v2a8.001 8.001 0 0 1 7.961 6.518a2 2 0 0 1 2.039 2.012c-.262 0-.512 0-.77-.024A8.002 8.002 0 0 1 12 21v2c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
       Fincas
     </a>
-    <a href="#" tabindex="0" title="Tareas">
+    <a href="{{ url_for('task_page') }}" tabindex="0" title="Tareas">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v16a2 
         2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM12 3a1 1 0 0 1 1 1h-2a1 1 0 0 1 1-1zm-1 14l-3.5-3.5 

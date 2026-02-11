@@ -46,6 +46,12 @@ def fincas_page():
     return render_template('fincas/farm.html')
 
 
+@app.route("/tareas")
+def task_page():
+    if not session.get("user_email"):
+        return redirect(url_for("home"))
+    return render_template("task/tareas.html")
+
 @app.route("/register")
 def register_page():
     return render_template("login/register.html")
