@@ -43,7 +43,7 @@ def dashboard():
 def fincas_page():
     if 'user_id' not in session:
         return redirect(url_for('login_page'))
-    return render_template('fincas/fincas.html')
+    return render_template('fincas/farm.html')
 
 
 @app.route("/register")

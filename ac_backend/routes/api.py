@@ -172,3 +172,6 @@ def delete_finca(id):
     farms_manager.delete_farm(id)
     return jsonify({"success": True, "message": "Finca eliminada"})
 
+
+
+

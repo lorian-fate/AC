@@ -8,7 +8,6 @@ from .dbConnect import DbConnect
 
 
 
-
 class UserManager:
     def __init__(self):
         self.db = DbConnect()

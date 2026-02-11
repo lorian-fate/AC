@@ -1,0 +1,86 @@
+{% extends "index/base_dashboard.html" %}
+{% block content %}
+    
+    <h2>Tareas</h2>
+
+    <div class="cards-container" aria-label="Resumen de tareas y fincas">
+      <div class="card" role="region" aria-labelledby="totalFincasLabel">
+        <h3 id="totalFincasLabel">Tareas Mapfre</h3>
+        <p class="value" aria-live="polite" id="totalFincas">14</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="pendingTasksLabel">
+        <h3 id="pendingTasksLabel">Tareas Pendientes</h3>
+        <p class="value" aria-live="polite" id="pendingTasks">6</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="inProgressTasksLabel">
+        <h3 id="inProgressTasksLabel">Tareas en Progreso</h3>
+        <p class="value" aria-live="polite" id="inProgressTasks">3</p>
+      </div>
+
+      <div class="card" role="region" aria-labelledby="completedTasksLabel">
+        <h3 id="completedTasksLabel">Tareas Completadas</h3>
+        <p class="value" aria-live="polite" id="completedTasks">25</p>
+      </div>
+    </div>
+
+    <section class="tasks" aria-label="Lista de tareas recientes">
+      <h3>Tareas Recientes</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Tarea</th>
+            <th>Finca</th>
+            <th>Responsable</th>
+            <th>Fecha límite</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Recoger facturas de servicios</td>
+            <td>Finca El Paraíso</td>
+            <td>Laura Martínez</td>
+            <td>2024-07-10</td>
+            <td><span class="status pending" aria-label="Pendiente">Pendiente</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Recoger facturas de servicios como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Revisión anual del ascensor</td>
+            <td>Finca Los Olivos</td>
+            <td>Carlos Gómez</td>
+            <td>2024-07-02</td>
+            <td><span class="status in-progress" aria-label="En progreso">En progreso</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Revisión anual del ascensor como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Poda y mantenimiento jardín</td>
+            <td>Finca Las Rosas</td>
+            <td>María Fernández</td>
+            <td>2024-07-15</td>
+            <td><span class="status pending" aria-label="Pendiente">Pendiente</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Poda y mantenimiento jardín como completada">Completar</button></td>
+          </tr>
+          <tr>
+            <td>Pago de suministros de agua</td>
+            <td>Finca San José</td>
+            <td>Juan Pérez</td>
+            <td>2024-06-30</td>
+            <td><span class="status completed" aria-label="Completado">Completado</span></td>
+            <td><button class="btn-action" aria-label="Tarea Pago de suministros de agua completada" disabled>Completado</button></td>
+          </tr>
+          <tr>
+            <td>Actualización del seguro</td>
+            <td>Finca El Paraíso</td>
+            <td>Andrea Ruiz</td>
+            <td>2024-07-20</td>
+            <td><span class="status in-progress" aria-label="En progreso">En progreso</span></td>
+            <td><button class="btn-action" aria-label="Marcar tarea Actualización del seguro como completada">Completar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+{% endblock %}
